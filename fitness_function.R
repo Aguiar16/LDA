@@ -7,6 +7,8 @@ fitness_LDA<-function(x=c()){
   pAlpha<-x[3]              #x[3] = Alpha
   pDelta<-x[4]              #x[4] = Beta
   
+  numero_topic
+
   # apply LDA to the term-by-document matrix
   ldm <- LDA(tdm, method="Gibbs", control = list(alpha=pAlpha, delta=pDelta, iter=iteration, seed=5, nstart=1), k = numero_topic)  # k = num of topics
   pldm <- posterior(ldm)
@@ -14,7 +16,7 @@ fitness_LDA<-function(x=c()){
   
   # compute the topic-by-term matrix    
   names(tdm$dimnames)
-  docs<-tdm$dimnames$Docs
+  docs<-tdm$dimnames$documents
   topics<-names(terms(ldm))
   matrix<-pldm$topics
   dimnames(matrix)<-list(docs,topics)
