@@ -7,32 +7,40 @@ fitness_LDA<-function(x=c()){
   pAlpha<-x[3]              #x[3] = Alpha
   pDelta<-x[4]              #x[4] = Beta
   
-  numero_topic
-
   # apply LDA to the term-by-document matrix
-  ldm <- LDA(tdm, method="Gibbs", control = list(alpha=pAlpha, delta=pDelta, iter=iteration, seed=5, nstart=1), k = numero_topic)  # k = num of topics
+  ldm <- LDA(tdm, method="Gibbs", control = list(
+    alpha=pAlpha,
+    delta=pDelta,
+    iter=iteration,
+    seed=5,
+    nstart=1), k = numero_topic)  # k = num of topics
+  
   pldm <- posterior(ldm)
   names(pldm)
-  
+
   # compute the topic-by-term matrix    
   names(tdm$dimnames)
-  docs<-tdm$dimnames$documents
+  docs <- tdm$dimnames$Docs
   topics<-names(terms(ldm))
   matrix<-pldm$topics
   dimnames(matrix)<-list(docs,topics)
-  
+
   # compute the distance between documents in the topics space
   distances <- as.matrix(dist(matrix, method = "euclidean", diag = T, upper = T))
-  
+
   # computing number of clusters
   clustering<-matrix("",length(rownames(matrix)),1)
+   
+
   for (i in 1:length(rownames(matrix))) {
     flag<-(matrix[i,]==max(matrix[i,]))# each documents belongs to the cluster with the higher probability
     flag<-which(flag==TRUE)
     topics <- sort(flag)
     clustering[i,1]<-paste(topics, collapse = '_')
   }
+
   rownames(clustering)<-rownames(matrix)
+
   
   # assign the clusters
   clusters<-unique(clustering)
