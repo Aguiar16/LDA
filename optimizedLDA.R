@@ -40,6 +40,7 @@ res<-ga(type = "real-valued", fitness = fitness_LDA,
 	maxiter=n_iterations, run=n_iterations, popSize=pop_size, mutation=gareal_raMutation,
 	crossover = gareal_blxCrossover)
 
+print('6')
 best <- summary(res)
 write.csv(best$solution, file = "./Results/OptimizedParameters.csv")
 return(best$solution)
@@ -48,7 +49,7 @@ return(best$solution)
 Optimize <- function (){
 	x <- GA()
 	LdaOptimized(x)
-
+	print('7')
 }
 
 
