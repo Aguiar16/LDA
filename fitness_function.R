@@ -74,3 +74,21 @@ fitness_LDA<-function(x=c()){
   }
   return(mean(sil))
 }
+
+LdaOptimized <- function(x){
+  numero_topic<-round(x[1]) #x[1] = number of topics k
+  iteration<-round(x[2])    #x[2] =  number of gibbs iteration
+  pAlpha<-x[3]              #x[3] = Alpha
+  pDelta<-x[4]              #x[4] = Beta
+  
+  ldm <- LDA(tdm, method="Gibbs", control = list(alpha=pAlpha, delta=pDelta, iter=iteration, seed=5, nstart=1), k = numero_topic)  # k = num of topics
+  ap_topics1 <- tidy(mLDA, matrix = "gamma")
+  ap_topics2 <- tidy(mLDA, matrix = "beta")
+
+  write.csv(ap_topics1, file = "./Results/OptimizedLDAGamma.csv")
+  write.csv(ap_topics2, file = "./Results/OptimizedLDABeta.csv")
+
+  # pldm <- posterior(ldm)
+  # document2topic <- pldm$topics
+
+}
