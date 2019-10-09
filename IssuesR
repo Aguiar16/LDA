@@ -1,0 +1,7 @@
+CASE 1 - C++/G++ Compiler error
+In case with installing the libraries with install.packages("") 
+and got an error abou c++11 or g++11, install the library "withr"
+and execute this command on R in sudo:
+
+  withr::with_makevars(c(CXX = "g++ -std=c++11"), 
+   install.packages("xml2", verbose = TRUE))
