@@ -22,13 +22,14 @@ tdm$v <- as.integer(round(tdm2$v))
 
 pop_size = 10
 n_iterations = 5
-lower_bounds <- c(10, # n. topics
-                  50, # n. iterations
+lower_bounds <- c(5, # n. topics
+                  10, # n. iterations
                   0,  # alpha
                   0   # beta
 )
 
-upper_bounds <- c(length(matModel$document), # n. topics
+# upper_bounds <- c(length(unique(matModel$document)), # n. topics
+upper_bounds <- c(40,                        # n. topics
                   100,                       # n. iterations
                   1,                         # alpha
                   1                          # beta
