@@ -1,0 +1,19 @@
+# A tibble: 196,742 x 3
+   document word            number
+      <dbl> <chr>            <dbl>
+ 1 41896367 unable               2
+ 2 41896367 create               4
+ 3 41896367 spring               2
+ 4 41896367 boot                 2
+ 5 41896367 project              4
+ 6 41896367 org                  1
+ 7 41896367 springframework      1
+ 8 41896367 web                  1
+ 9 41896367 client               1
+10 41896367 exception            1
+# … with 196,732 more rows
+<<DocumentTermMatrix (documents: 4033, terms: 2273)>>
+Non-/sparse entries: 196742/8970267
+Sparsity           : 98%
+Maximal term length: 29
+Weighting          : term frequency (tf)
