@@ -3,7 +3,7 @@
 # denotes better clustering quality
 fitness_LDA<-function(x=c()){
   numero_topic<-round(x[1]) #x[1] = number of topics k
-  iteration<-round(x[2])    #x[2] =  number of gibbs iteration
+  iteration<-round(x[2])    #x[2] = number of gibbs iteration
   pAlpha<-x[3]              #x[3] = Alpha
   pDelta<-x[4]              #x[4] = Beta
   
@@ -15,6 +15,7 @@ fitness_LDA<-function(x=c()){
     delta=pDelta,
     iter=iteration,
     seed=5,
+    verbose=1,
     nstart=1), k = numero_topic)  # k = num of topics
 
   print('2')

@@ -27,8 +27,8 @@ dtm$v <- as.integer(round(dtm2$v))
 # 8. Meta-heuristic setting
 pop_size = 10
 n_iterations = 5
-lower_bounds <- c(10, # n. topics
-                  50, # n. iterations
+lower_bounds <- c(5, # n. topics
+                  10, # n. iterations
                   0,  # alpha
                   0   # beta
 )
