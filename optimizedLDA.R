@@ -15,11 +15,16 @@ library(NMOF)
 library(xtable)
 source("./fitness_function.R")
 
-matModel <- readr::read_csv("./corpus/database.csv")
-tdm <- tidytext::cast_dtm(matModel, document, word, number)
-tdm2 <- weightSMART(tdm, "ntn")
-tdm$v <- as.integer(round(tdm2$v))
+corpusMatrix <- readr::read_csv("./corpus/DatasetPreparado.csv")
 
+## create the corpus with textmatrix
+dtm <- tidytext::cast_dtm(corpusMatrix, document, word, n)
+
+# 7. Apply tf-idf weighting schema
+dtm2 <- weightSMART(dtm, "ntn")
+dtm$v <- as.integer(round(dtm2$v))
+
+# 8. Meta-heuristic setting
 pop_size = 10
 n_iterations = 5
 lower_bounds <- c(10, # n. topics
@@ -28,28 +33,42 @@ lower_bounds <- c(10, # n. topics
                   0   # beta
 )
 
-upper_bounds <- c(length(matModel$document), # n. topics
-                  100,                       # n. iterations
-                  1,                         # alpha
-                  1                          # beta
+# print(length(dtm$dimnames$Docs))
+upper_bounds <- c(0,				   # n. topics
+			100,                       # n. iterations
+			1,                         # alpha
+			1                          # beta
 )
 
-GA <- function(){
-res<-ga(type = "real-valued", fitness = fitness_LDA,
-	lower=lower_bounds, upper=upper_bounds, pmutation = 1/4,
-	maxiter=n_iterations, run=n_iterations, popSize=pop_size, mutation=gareal_raMutation,
-	crossover = gareal_blxCrossover)
 
-print('6')
-best <- summary(res)
-write.csv(best$solution, file = "./Results/OptimizedParameters.csv")
-return(best$solution)
+GA <- function(){
+	print('0')
+	res<-ga(type = "real-valued", fitness = fitness_LDA,
+		lower=lower_bounds, upper=upper_bounds, pmutation = 1/4,
+		maxiter=n_iterations, run=n_iterations, popSize=pop_size, mutation=gareal_raMutation,
+		crossover = gareal_blxCrossover)
+
+	print('6')
+	best <- summary(res)
+	write.table(best$solution, file = "./Results/OptimizedParameters.csv", sep =',', append = TRUE, row.name = FALSE)
+	return(best$solution)
 }
 
 Optimize <- function (){
-	x <- GA()
-	LdaOptimized(x)
-	print('7')
+
+	# number in independent runs
+
+	numberOfRuns = 30
+	for(t in seq(10,50,5)){
+		upper_bounds <<- c(t,100,1,1)
+		for (i in 1:numberOfRuns){
+			#running GA
+			x <- GA()
+			# Compute LDA optimized
+			OptimizedLDA(x)
+			cat("end of",i,"th run\n")
+		}
+	}
 }
 
 

@@ -10,7 +10,7 @@ fitness_LDA<-function(x=c()){
   print('1')
   
   # apply LDA to the term-by-document matrix
-  ldm <- LDA(tdm, method="Gibbs", control = list(
+  ldm <- LDA(dtm, method="Gibbs", control = list(
     alpha=pAlpha,
     delta=pDelta,
     iter=iteration,
@@ -23,8 +23,8 @@ fitness_LDA<-function(x=c()){
   names(pldm)
 
   # compute the topic-by-term matrix    
-  names(tdm$dimnames)
-  docs <- tdm$dimnames$Docs
+  names(dtm$dimnames)
+  docs <- dtm$dimnames$Docs
   topics<-names(terms(ldm))
   matrix<-pldm$topics
   dimnames(matrix)<-list(docs,topics)
@@ -82,15 +82,15 @@ fitness_LDA<-function(x=c()){
   return(mean(sil))
 }
 
-LdaOptimized <- function(x){
+OptimizedLDA <- function(x){
   numero_topic<-round(x[1]) #x[1] = number of topics k
   iteration<-round(x[2])    #x[2] =  number of gibbs iteration
   pAlpha<-x[3]              #x[3] = Alpha
   pDelta<-x[4]              #x[4] = Beta
   
-  ldm <- LDA(tdm, method="Gibbs", control = list(alpha=pAlpha, delta=pDelta, iter=iteration, seed=5, nstart=1), k = numero_topic)  # k = num of topics
-  ap_topics1 <- tidy(mLDA, matrix = "gamma")
-  ap_topics2 <- tidy(mLDA, matrix = "beta")
+  ldm <- LDA(dtm, method="Gibbs", control = list(alpha=pAlpha, delta=pDelta, iter=iteration, seed=5, nstart=1), k = numero_topic)  # k = num of topics
+  ap_topics1 <- tidy(ldm, matrix = "gamma")
+  ap_topics2 <- tidy(ldm, matrix = "beta")
 
   write.csv(ap_topics1, file = "./Results/OptimizedLDAGamma.csv")
   write.csv(ap_topics2, file = "./Results/OptimizedLDABeta.csv")
