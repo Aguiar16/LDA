@@ -12,10 +12,9 @@ fitness_LDA<-function(x=c()){
     alpha=pAlpha,
     delta=pDelta,
     iter=iteration,
+    verbose=1,
     seed=5,
     nstart=1), k = numero_topic)  # k = num of topics
-
-  print('1')
   
   pldm <- posterior(ldm)
   names(pldm)
@@ -26,8 +25,6 @@ fitness_LDA<-function(x=c()){
   topics<-names(terms(ldm))
   matrix<-pldm$topics
   dimnames(matrix)<-list(docs,topics)
-
-  print('2')
 
   # compute the distance between documents in the topics space
   distances <- as.matrix(dist(matrix, method = "euclidean", diag = T, upper = T))
@@ -44,8 +41,6 @@ fitness_LDA<-function(x=c()){
   }
 
   rownames(clustering)<-rownames(matrix)
-
-  print('3')
 
   # assign the clusters
   clusters<-unique(clustering)
@@ -68,7 +63,6 @@ fitness_LDA<-function(x=c()){
   for (i in 1:length(rownames(distances))){
     separation[i,1] <- min(distances[clustering[,1] != clustering[i,1],i])
   }
-  print('4')
 
   # compute the silhouette coefficient
   sil <- matrix(nrow = length(rownames(distances)), ncol = 1)
