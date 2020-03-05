@@ -48,7 +48,7 @@ GA <- function(){
 		crossover = gareal_blxCrossover)
 
 	best <- summary(res)
-	write.table(best$solution, file = "./results/OptimizedParameters.csv", sep =',', append = TRUE, row.name = FALSE)
+	write.table(best$solution, file = "./Results/OptimizedParameters.csv", sep =',', append = TRUE, row.name = FALSE)
 	return(best$solution)
 }
 
