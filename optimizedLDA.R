@@ -42,15 +42,13 @@ upper_bounds <- c(0,				   # n. topics
 
 
 GA <- function(){
-	print('0')
 	res<-ga(type = "real-valued", fitness = fitness_LDA,
 		lower=lower_bounds, upper=upper_bounds, pmutation = 1/4,
 		maxiter=n_iterations, run=n_iterations, popSize=pop_size, mutation=gareal_raMutation,
 		crossover = gareal_blxCrossover)
 
-	print('6')
 	best <- summary(res)
-	write.table(best$solution, file = "./Results/OptimizedParameters.csv", sep =',', append = TRUE, row.name = FALSE)
+	write.table(best$solution, file = "./results/OptimizedParameters.csv", sep =',', append = TRUE, row.name = FALSE)
 	return(best$solution)
 }
 
@@ -61,12 +59,13 @@ Optimize <- function (){
 	numberOfRuns = 30
 	for(t in seq(10,50,5)){
 		upper_bounds <<- c(t,100,1,1)
+		cat("starting the test of",t,"max topics\n")
 		for (i in 1:numberOfRuns){
 			#running GA
 			x <- GA()
 			# Compute LDA optimized
 			OptimizedLDA(x)
-			cat("end of",i,"th run\n")
+			cat("end of",i,"th run of the MAX",t,"topics\n")
 		}
 	}
 }
