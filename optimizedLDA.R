@@ -57,7 +57,7 @@ Optimize <- function (){
 	# number in independent runs
 
 	numberOfRuns = 30
-	for(t in seq(10,50,5)){
+	for(t in seq(10,100,5)){
 		upper_bounds <<- c(t,100,1,1)
 		cat("starting the test of",t,"max topics\n")
 		for (i in 1:numberOfRuns){
